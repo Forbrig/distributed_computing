@@ -41,7 +41,7 @@ messages = []
 print("Press Enter Before Send Message, message send only with ->")
 alias = input("Name: ")
 message = 'Connect'
-message = (alias + ": " + message)
+message = (alias + ": " + message + "\n"  + time.ctime(time.time()))
 message = message.encode('utf-8')
 s.sendto(message, server)
 time.sleep(0.3)
