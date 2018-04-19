@@ -12,11 +12,17 @@ def receving(name, sock):
             while True:
                 data, addr = sock.recvfrom(1024)
                 decoded_data = data.decode('utf-8')
-                print(decoded_data)
+                print(decoded_data+'\n')
         except:
             pass
         finally:
             tLock.release()
+
+def past_conv():
+    arquivo = open('conversa.txt', 'r')
+    conteudo = arquivo.readlines()
+    print(conteudo)
+
 
 host = '127.0.0.1'
 port = 0
@@ -30,18 +36,31 @@ s.setblocking(0)
 receivingThread = threading.Thread(target = receving, args = ("RecvThread", s))
 receivingThread.start()
 
+#past_conv()
+messages = []
+print("Press Enter Before Send Message, message send only with ->")
 alias = input("Name: ")
+message = 'Connect'
+message = (alias + ": " + message)
+message = message.encode('utf-8')
+s.sendto(message, server)
+time.sleep(0.3)
+
 message = input(alias + "-> ")
+messages.append(message)
+
 while (message != 'Quit'):
     if (message != ''):
         message = (alias + ": " + message)
         message = message.encode('utf-8')
         s.sendto(message, server)
-    tLock.acquire()
     message = input(alias + "-> ")
-    tLock.release()
-    time.sleep(0.2)
+    time.sleep(0.3)
 
+message = 'Desconnect'
+message = (alias + ": " + message)
+message = message.encode('utf-8')
+s.sendto(message, server)
 shudown = True
 receivingThread.join()
 s.close()
