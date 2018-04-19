@@ -34,12 +34,17 @@ while not quitting:
             print("Client ", addr, "has connected.")
             clients.append(addr)
 
-        print(time.ctime(time.time()), addr, ":", decoded_data)
+        #data_message,date_message = decoded_data.split('|',1)
+        #if(time.ctime(time.time()) > decoded_data.split("|")[1])
+        print(time.ctime(time.time()))
+        #else
+        #print(date_message)
+        print(addr, ":", decoded_data.split("\n")[0])
         time.sleep(0.2)
         for client in clients:
             if addr != client:
                 s.sendto(data, client)
 
     except:
-        pass    
+        pass
 s.close()
