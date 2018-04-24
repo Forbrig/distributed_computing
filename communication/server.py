@@ -36,9 +36,13 @@ while not quitting:
         else:
             ################################
             m = decoded_data.split(' ')
+            message_envio = ('')
             for i, token in enumerate(m[:]):
                 if token == 'Date:':
                     break
+                print(message_envio)
+                message_envio = (message_envio + token + (' '))
+
             segundos_cliente = m[i+4:i+5]
             segundos_cliente = str(segundos_cliente).replace(":", " ").replace("[", "").replace("]", "").replace("\'", "")
             segundos_cliente = segundos_cliente.split(' ')
@@ -46,6 +50,7 @@ while not quitting:
             print(segundos_cliente)
             ################################
             segundos_servidor = time.ctime(time.time())
+            message_envio = (message_envio + ('Date: ') + segundos_servidor)
             segundos_servidor = (segundos_servidor).split(' ')[3:4]
             segundos_servidor = str(segundos_servidor).replace(":", " ").replace("[", "").replace("]", "").replace("\'", "")
             segundos_servidor = segundos_servidor.split(' ')
@@ -56,7 +61,12 @@ while not quitting:
             print(time.ctime(time.time()), "|", decoded_data.split("\n")[0])
             for client in clients:
                 if addr != client:
-                    s.sendto(data, client)
+                    if segundos_cliente >= segundos_servidor:
+                        s.sendto(data, client)
+                    else:                        
+                        print(message_envio)
+                        message_envio = message_envio.encode('utf-8')
+                        s.sendto(message_envio, client)
     except:
         pass
 s.close()
