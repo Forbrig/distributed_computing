@@ -54,7 +54,7 @@ while (message != 'Quit'):
         #print(message)
         message = message.encode('utf-8')
 
-        time.sleep(2)
+        time.sleep(1)
         s.sendto(message, server)
     message = input()
     #time.sleep(0.3)
