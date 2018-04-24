@@ -34,17 +34,17 @@ while not quitting:
             print("Client", addr, "has connected as", decoded_data.split(' ')[0].replace(":", ""), "at", time.ctime(time.time()))
             clients.append(addr)
         else:
+            ################################
             m = decoded_data.split(' ')
             for i, token in enumerate(m[:]):
                 if token == 'Date:':
                     break
-            data = m[i+4:i+5]
-            #print(data)
-            data = str(data).replace(":", " ").replace("[", "").replace("]", "").replace("\'", "")
-            data = data.split(' ')
-            segundos_cliente = (int(data[0]))*60*60 + (int(data[1]))*60 + (int(data[2])) #segundos da mensagem do cliente quando chega no servidor
+            segundos_cliente = m[i+4:i+5]
+            segundos_cliente = str(segundos_cliente).replace(":", " ").replace("[", "").replace("]", "").replace("\'", "")
+            segundos_cliente = segundos_cliente.split(' ')
+            segundos_cliente = (int(segundos_cliente[0]))*60*60 + (int(segundos_cliente[1]))*60 + (int(segundos_cliente[2])) #segundos da mensagem do cliente quando chega no servidor
             print(segundos_cliente)
-
+            ################################
             segundos_servidor = time.ctime(time.time())
             segundos_servidor = (segundos_servidor).split(' ')[3:4]
             segundos_servidor = str(segundos_servidor).replace(":", " ").replace("[", "").replace("]", "").replace("\'", "")
@@ -52,7 +52,6 @@ while not quitting:
             segundos_servidor = (int(segundos_servidor[0]))*60*60 + (int(segundos_servidor[1]))*60 + (int(segundos_servidor[2])) #segundos do servidor quando chega a mensagem do cliente
 
             print(segundos_servidor)
-
 
             print(time.ctime(time.time()), "|", decoded_data.split("\n")[0])
             for client in clients:
